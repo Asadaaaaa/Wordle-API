@@ -1,6 +1,6 @@
 # Wordle API
 
-Welcome to the backend API for the Wordle game! This API allows you to start a new game session, submit guessed words, and retrieve game status. You can access the frontend web version of the Wordle game at https://wordle.otech.id.
+Welcome to the backend API for the Wordle game by OctaTech! This API allows you to start a new game session, submit guessed words, and retrieve game status. You can access the frontend web version of the Wordle game at https://wordle.otech.id.
 
 ## Endpoints
 
