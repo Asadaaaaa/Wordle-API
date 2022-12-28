@@ -70,7 +70,7 @@
             "session":"{session code}",
             "resCode": "OK",
             "guessed": true,
-            "message": "You Wind!"
+            "message": "You Win!"
           }
         ]
       }
