@@ -6,7 +6,7 @@ const wordsAPI = (server, api) => {
     const session = req.query.session;
     const word = rword.generate(1, { length: 5});
     
-    if(server.session[session] === undefined) {
+    if(JSON.stringify(server.session[session], null, 2) === undefined) {
       res.status(405).json({
         resCode: 1,
         message: 'Session Not Found!',
@@ -16,13 +16,13 @@ const wordsAPI = (server, api) => {
       return;
     }
 
-    server.session[session].word = word.split('');
+    JSON.stringify(server.session[session], null, 2).word = word.split('');
 
     res.send({
       resCode: "OK",
       session
     });
-    server.sendLogs("End-Point: /api/play\n  Status: OK");
+    server.sendLogs("End-Point: /api/play\n  Status: OK\n  Session Data [" + session + "]: " + JSON.stringify(server.session[session], null, 2));
   });
 
   api.post('/api/guessed', (req, res) => {
@@ -31,7 +31,7 @@ const wordsAPI = (server, api) => {
       return element.toLowerCase();
     });;
 
-    if(server.session[session] === undefined) {
+    if(JSON.stringify(server.session[session], null, 2) === undefined) {
       res.status(405).json({
         resCode: 1,
         message: 'Session Not Found!',
@@ -52,43 +52,42 @@ const wordsAPI = (server, api) => {
       return;
     }
 
-    if(guessed.join("").toString() === server.session[session].word.join("").toString()) {
+    if(guessed.join("").toString() === JSON.stringify(server.session[session], null, 2).word.join("").toString()) {
       res.status(405).json({
         session,
         resCode: 'OK',
         guessed: true,
         message: "You Win!"
       });
-      server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: Win!");
+      server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: Win!\n  Session Data [" + session + "]: " + JSON.stringify(server.session[session], null, 2));
 
-      delete server.session[session];
+      delete JSON.stringify(server.session[session], null, 2);
 
       return;
     }
 
     guessed.forEach((val, idx, arr) => {
-      if(server.session[session].word.indexOf(val) === -1) {
+      if(JSON.stringify(server.session[session], null, 2).word.indexOf(val) === -1) {
         guessed[idx] = [val, 0];
-      } else if(idx !== server.session[session].word.indexOf(val)) {
+      } else if(idx !== JSON.stringify(server.session[session], null, 2).word.indexOf(val)) {
         guessed[idx] = [val, 1];
-      } else if(idx === server.session[session].word.indexOf(val)) {
+      } else if(idx === JSON.stringify(server.session[session], null, 2).word.indexOf(val)) {
         guessed[idx] = [val, 2];
       }
     });
 
-    server.session[session].guessed.push(guessed);
+    JSON.stringify(server.session[session], null, 2).guessed.push(guessed);
 
-    if(server.session[session].guessed.length === 5) {
-      delete server.session[session].guessed;
-
+    if(JSON.stringify(server.session[session], null, 2).guessed.length === 5) {
       res.send({
         session,
         resCode: "OK",
         guessed,
         message: 'You Lose!'
       });
-      server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: You Lose!");
+      server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: You Lose!\n  Session Data [" + session + "]: " + JSON.stringify(server.session[session], null, 2));
 
+      delete JSON.stringify(server.session[session], null, 2).guessed;
       return;
     }
     res.send({
@@ -97,7 +96,7 @@ const wordsAPI = (server, api) => {
       guessed,
       message: "Added guessed word!"
     });
-    server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: Added guessed word!");
+    server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: Added guessed word!\n  Session Data [" + session + "]: " + JSON.stringify(server.session[session], null, 2));
 
   });
 }
