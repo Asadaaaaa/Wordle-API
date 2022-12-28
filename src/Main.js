@@ -5,7 +5,18 @@ import wordsAPI from './components/words/wordsAPI.js';
 import express from 'express';
 
 const server = {
-  session: {}
+  session: {},
+  sendLogs: (text) => {
+    let date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Jakarta"}));
+    let currentDate = "[" + date.getDate() + "/" 
+        + (date.getMonth()+1)  + "/" 
+        + date.getFullYear() + "|"  
+        + date.getHours() + ":"  
+        + date.getMinutes() + ":" 
+        + date.getSeconds() + "]";
+
+    console.log("\n", currentDate + ": " + text);
+  }
 }
 
 const api = express();
