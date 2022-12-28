@@ -7,10 +7,11 @@ const wordsAPI = (server, api) => {
     const word = rword.generate(1, { length: 5});
     
     if(server.session[session] === undefined) {
-      res.send({
+      res.status(405).json({
         resCode: 1,
         message: 'Session Not Found!',
       });
+      server.sendLogs("End-Point: /api/play\n  Status: Method not Allowed!\n  Description: Session Not Found!");
 
       return;
     }
@@ -21,6 +22,7 @@ const wordsAPI = (server, api) => {
       resCode: "OK",
       session
     });
+    server.sendLogs("End-Point: /api/play\n  Status: OK");
   });
 
   api.post('/api/guessed', (req, res) => {
@@ -30,30 +32,34 @@ const wordsAPI = (server, api) => {
     });;
 
     if(server.session[session] === undefined) {
-      res.send({
+      res.status(405).json({
         resCode: 1,
         message: 'Session Not Found!',
       });
+      server.sendLogs("End-Point: /api/guessed\n  Status: Method not Allowed!\n  Description: Session Not Found!");
 
       return;
     }
 
     if(!rword.words.includes(guessed.join("").toString())) {
-      res.send({
+      res.status(405).json({
         session,
         resCode: 2,
         message: 'Words Not Found!'
       });
+      server.sendLogs("End-Point: /api/guessed\n  Status: Method not Allowed!\n  Description: Words Not Found!");
 
       return;
     }
 
     if(guessed.join("").toString() === server.session[session].word.join("").toString()) {
-      res.send({
+      res.status(405).json({
         session,
         resCode: 'OK',
-        guessed: true
+        guessed: true,
+        message: "You Win!"
       });
+      server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: Win!");
 
       delete server.session[session];
 
@@ -77,10 +83,11 @@ const wordsAPI = (server, api) => {
 
       res.send({
         session,
-        resCode: 3,
+        resCode: "OK",
         guessed,
-        message: 'Lose'
+        message: 'You Lose!'
       });
+      server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: You Lose!");
 
       return;
     }
@@ -89,7 +96,9 @@ const wordsAPI = (server, api) => {
       resCode: 'OK',
       guessed,
       message: "Added guessed word!"
-    })
+    });
+    server.sendLogs("End-Point: /api/guessed\n  Status: OK\n  Description: Added guessed word!");
+
   });
 }
 
