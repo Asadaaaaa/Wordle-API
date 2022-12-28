@@ -54,7 +54,7 @@
 
           {
             "session":"{session code}",
-            "resCode": 3,
+            "resCode": "OK",
             "guessed": ["{array of guessed words}"],
             "message": "You Lose!"
           },
