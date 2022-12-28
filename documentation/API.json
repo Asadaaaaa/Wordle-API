@@ -1,0 +1,79 @@
+{
+  "title": "Wordle",
+  "routes": {
+    "session": [
+      {
+        "name": "Session",
+        "method": "GET",
+        "endpoint": "/api/session",
+        "res": [
+          {
+            "sessionCode": "{session code}"
+          }
+        ]
+      }
+    ],
+    
+    "words": [
+      {
+        "name": "Play",
+        "method": "GET",
+        "endpoint": "/api/play?session={session code}",
+        "res": [
+          {
+            "resCode": 1,
+            "message": "Session Not Found!"
+          },
+
+          {
+            "resCode": "OK",
+            "session": "{session code}"
+          }
+        ]
+      },
+
+      {
+        "name": "Guessed",
+        "method": "POST",
+        "endpoint": "/api/guessed",
+        "req": {
+          "session": "{session code}",
+          "guessed": ["{array of alphabet}"]
+        },
+        "res": [
+          {
+            "resCode": 1,
+            "message": "Session Not Found!"
+          },
+
+          {
+            "session": "{session code}",
+            "resCode": 2,
+            "message": "Words Not Found!"
+          },
+
+          {
+            "session":"{session code}",
+            "resCode": 3,
+            "guessed": ["{array of guessed words}"],
+            "message": "You Lose!"
+          },
+
+          {
+            "session": "{session code}",
+            "resCode": "OK",
+            "guessed": ["{array of guessed words}"],
+            "message": "Added guessed word!"
+          },
+
+          {
+            "session":"{session code}",
+            "resCode": "OK",
+            "guessed": true,
+            "message": "You Wind!"
+          }
+        ]
+      }
+    ]
+  }
+}
