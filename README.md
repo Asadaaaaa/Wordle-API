@@ -6,7 +6,10 @@ Welcome to the backend API for the Wordle game by OctaTech! This API allows you 
 
 ### Session
 
-#### GET /api/session
+host: https://wordle-api.otech.id
+
+#### GET 
+[/api/session](https://wordle-api.otech.id/api/session)
 
 Retrieves a session code for a new game.
 
@@ -20,7 +23,8 @@ Retrieves a session code for a new game.
 
 ### Words
 
-#### GET /api/play?session={session code}
+#### GET 
+[/api/play?session={session code}](https://wordle-api.otech.id/api/play?session=aBcD123)
 
 Starts a game session with the specified session code.
 
@@ -42,7 +46,8 @@ Starts a game session with the specified session code.
 ```
 
 
-#### POST /api/guessed
+#### POST 
+[/api/guessed](https://wordle-api.otech.id/api/guessed)
 
 Submits a guessed word for the specified session.
 
